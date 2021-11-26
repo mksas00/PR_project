@@ -5,6 +5,7 @@
 .navbarDiv {
   margin-top: 15px;
   display: flex;
+  justify-content: center;
   justify-content: space-between;
 
 }
@@ -12,16 +13,81 @@
 .logoIM
 {
   content: url("https://1000logos.net/wp-content/uploads/2020/08/Imdb-logo.png");
-  width: 300px;
-  height: 120px;
+  width: 200px;
+  height: 100px;
+  margin-left: 20px;
+  margin-right: 20px;
 }
 
 .navbarLinks{
 
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
   margin-right: 25px;
+  margin-left: 25px;
 }
 
+.filmList{
+  display: flex;
+  flex-direction: row;
+  margin-top: 150px;
+  margin-left: 100px;
+  margin-right: 100px;
+
+}
+
+
+.film_list{
+  display: flex;
+  flex-wrap: wrap;
+  list-style-type: none;
+  justify-content: space-around;
+  display: flex;
+  flex-direction: row;
+
+
+}
+
+.filmcard{
+  display: flex;
+  margin: 50px;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.filmImage{
+  height: 250px;
+}
+
+filmcard_div{
+  display: flex;
+  justify-content: space-around;
+
+}
+
+.footer {
+  display: flex;
+  background-color: black;
+  flex-direction: column;
+  align-self: flex-end;
+  height: 50px;
+  color: white;
+  font-weight: bold;
+  font-size:20px ;
+  align-items: center;
+  justify-content: space-around;
+
+}
+
+.nav-link{
+  font-size: 15px;
+  margin-right: 50px;
+}
+
+.form-control{
+
+  width: 50px;
+  height: 40px;
+}
 
