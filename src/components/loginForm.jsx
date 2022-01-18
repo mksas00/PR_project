@@ -1,59 +1,103 @@
-import React, {Component} from "react";
+import React, {Component, useState, useEffect} from "react";
+import { Link, useNavigate } from "react-router-dom";
+const axios = require('axios');
 
 
+const LoginForm = () =>{
 
-class LoginForm extends Component{
+    const [usernamme, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [errors, setErrors] = useState({})
+    let navigate = useNavigate();
 
-    state = {
-        account: {
-            username: "",
-            password: ""
-        },
-        errors: {}
+//   const state = {
+//         account: {
+//             username: "",
+//             password: ""
+//         },
+//         errors: {}
+//     };
+
+
+    const validate = () => {
+        const errors = {};
+
+        if (usernamme.trim() === '') {
+            errors.username = 'Username is required!';
+        }
+        if (password.trim() === '') {
+            errors.password = 'Password is required!';
+        }
+
+        return Object.keys(errors).length === 0 ? null : errors;
     };
 
+    const handleSubmit = (event) => {
+        event.preventDefault();
 
+        const errors = validate();
+        setErrors(errors || {});
+        if (errors) return;
 
+        axios({
+            method: 'post',
+            url: 'https://pr-movies.herokuapp.com/api/user/auth',
+            data: {
+                login: usernamme,
+                password: password
+            }
+        }).then((response) => {
+            localStorage.setItem('token', response.data.token);
+            console.log(response.data.token)
+            console.log(usernamme)
+            console.log(password)
+            navigate('/')
+        }).catch((error) => {
+            const errors = {};
+            errors.password = 'Given username does\'t exists or password is wrong!';
+            setErrors( errors || {});
+            console.log(error);
+        });
+    };
 
-    render()
-    {
+    
         return (
-         
-            <div style={{ justifyContent: 'center',  flex:1, padding: 0, marginTop:50, paddingLeft:'13%',paddingRight:'21%'}}>
-                <h1 style={{marginTop:50}}>Login</h1>
-                <form onSubmit={this.handleSubmit} >
+         <div style={{backgroundColor:'black', flex:1}}>
+            <div style={{ justifyContent: 'center',  flex:1, padding: 0, marginTop:50, paddingLeft:'13%',paddingRight:'21%' }}>
+                <h1 style={{marginTop:50, color:'white'}}>Login</h1>
+                <form onSubmit={ e=>{handleSubmit(e)}} >
                     <div className="form-group" style={{paddingTop: 10}}>
-                        <label htmlFor="username">Email address</label>
-                        <input value={this.state.account.username}
+                        <label htmlFor="username" style={{color:'white'}}>Login</label>
+                        <input 
                                name="username"
-                               onChange={this.handleChange}
+                               onChange={e=>{setUsername(e.target.value)}}
                                type="text"
                                className="form-control"
                                id="username"
                                aria-describedby="emailHelp"
                                placeholder="Username"/>
-                        {this.state.errors.username &&
-                        <div className="alert alert-danger">{this.state.errors.username}</div>}
+                        {errors.username &&
+                        <div className="alert alert-danger">{errors.username}</div>}
                     </div>
                     <div className="form-group" style={{paddingTop: 10}}>
-                        <label htmlFor="password">Password</label>
-                        <input value={this.state.account.password}
+                        <label htmlFor="password" style={{color:'white'}}>Password</label>
+                        <input 
                                name="password"
-                               onChange={this.handleChange}
+                               onChange={e=>{setPassword(e.target.value)}}
                                type="password"
                                className="form-control"
                                id="password"
                                placeholder="Password"/>
-                        {this.state.errors.password &&
-                        <div className="alert alert-danger">{this.state.errors.password}</div>}
+                        {errors.password &&
+                        <div className="alert alert-danger">{errors.password}</div>}
                     </div>
-                    <button type="submit" className="btn btn-primary" style={{backgroundColor: "black",marginTop:20}}>Login</button>
+                    <button type="submit" className="btn btn-primary" style={{backgroundColor: "white",marginTop:20, color:'black'}}>Login</button>
                 </form>
 
             </div>
-            
+            </div>
         );
-    }
+    
 
 
 

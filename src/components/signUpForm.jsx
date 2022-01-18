@@ -1,90 +1,144 @@
-import React,{Component} from "react";
+import React,{useState} from "react";
+import { useNavigate } from "react-router-dom";
+const axios = require('axios');
 
 
 
-class SignUpForm extends Component{
+const SignUpForm = () =>{
 
 
-    state = {
-        account: {
-            login: "",
-            username: "",
-            email: "",
-            password: ""
-        },
-        errors: {}
+
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState('');
+    const [login, setLogin] = useState('');
+    const [errors, setErrors] = useState({})
+    let navigate = useNavigate();
+
+    // state = {
+    //     account: {
+    //         login: "",
+    //         username: "",
+    //         email: "",
+    //         password: ""
+    //     },
+    //     errors: {}
+    // };
+
+
+
+    const validate = () => {
+        const errors = {};
+
+       
+        if (username.trim() === '') {
+            errors.username = 'Username is required!';
+        }
+        if (email.trim() === '') {
+            errors.password = 'Email is required!';
+        }
+        if (password.trim() === '') {
+            errors.password = 'Password is required!';
+        }
+
+        return Object.keys(errors).length === 0 ? null : errors;
     };
 
+    const handleSubmit = (event) => {
+        event.preventDefault();
 
-    render() {
+        const errors = validate();
+        setErrors(errors || {});
+        if (errors) return;
+
+        axios({
+            method: 'post',
+            url: 'https://pr-movies.herokuapp.com/api/user/create',
+            data: {
+                name: username,
+                email: email,
+                password: password
+            }
+        }).then((response) => {
+            navigate('/login')
+        }).catch((error) => {
+            const errors = {};
+            errors.password = 'Given username does\'t exists or password is wrong!';
+            setErrors( errors || {});
+            console.log(error);
+        });
+    };
+
+ 
+    
         return (
+            <div style={{backgroundColor:'black', flex:1}}>
             <div style={{ justifyContent: 'center',  flex:1, padding: 0, marginTop:50, paddingLeft:'13%',paddingRight:'21%'}}>
-                <h1 style={{marginTop:50}}>Sign Up</h1>
-                <form onSubmit={this.handleSubmit}>
+                <h1 style={{marginTop:50}} style={{color:'white'}}>Sign Up</h1>
+                <form onSubmit={e=>{handleSubmit(e)}}>
 
                     <div className="form-group" style={{paddingTop: 10}}>
-                        <label htmlFor="login">Login</label>
-                        <input value={this.state.account.login}
+                        <label htmlFor="login" style={{color:'white'}}>Login</label>
+                        <input 
                                name="login"
-                               onChange={this.handleChange}
+                               onChange={e=>{setLogin(e.target.value)}}
                                type="text"
                                className="form-control"
                                id="login"
                                aria-describedby="emailHelp"
                                placeholder="Login"/>
-                        {this.state.errors.login &&
-                        <div className="alert alert-danger">{this.state.errors.login}</div>}
+                        {errors.login &&
+                        <div className="alert alert-danger">{errors.login}</div>}
                     </div>
 
                     <div className="form-group" style={{paddingTop: 10}}>
-                        <label htmlFor="username">Name</label>
-                        <input value={this.state.account.username}
+                        <label htmlFor="username" style={{color:'white'}}>Name</label>
+                        <input 
                                name="username"
-                               onChange={this.handleChange}
+                               onChange={e=>{setUsername(e.target.value)}}
                                type="text"
                                className="form-control"
                                id="username"
                                aria-describedby="emailHelp"
                                placeholder="Username"/>
-                        {this.state.errors.username &&
-                        <div className="alert alert-danger">{this.state.errors.username}</div>}
+                        {errors.username &&
+                        <div className="alert alert-danger">{errors.username}</div>}
                     </div>
                     
                     <div className="form-group" style={{paddingTop: 10}}>
-                        <label htmlFor="email">Email address</label>
-                        <input value={this.state.account.email}
+                        <label htmlFor="email" style={{color:'white'}}>Email address</label>
+                        <input 
                                name="email"
-                               onChange={this.handleChange}
+                               onChange={e=>{setEmail(e.target.value)}}
                                type="email"
                                className="form-control"
                                id="email"
                                aria-describedby="emailHelp"
                                placeholder="Email"/>
-                        {this.state.errors.email &&
-                        <div className="alert alert-danger">{this.state.errors.email}</div>}
+                        {errors.email &&
+                        <div className="alert alert-danger">{errors.email}</div>}
                     </div>
 
                     <div className="form-group" style={{paddingTop: 10}}>
-                        <label htmlFor="password">Password</label>
-                        <input value={this.state.account.password}
+                        <label htmlFor="password" style={{color:'white'}}>Password</label>
+                        <input 
                                name="password"
-                               onChange={this.handleChange}
+                               onChange={e=>{setPassword(e.target.value)}}
                                type="password"
                                className="form-control"
                                id="password"
                                placeholder="Password"/>
-                        {this.state.errors.password &&
-                        <div className="alert alert-danger">{this.state.errors.password}</div>}
+                        {errors.password &&
+                        <div className="alert alert-danger">{errors.password}</div>}
                     </div>
 
-                    <button type="submit" className="btn btn-primary" style={{backgroundColor: "black",marginTop:20}}>SignUp</button>
+                    <button type="submit" className="btn btn-primary" style={{backgroundColor: "black",marginTop:20, color:'black', backgroundColor:'white'}}>SignUp</button>
                 </form>
 
             </div>
+            </div>
         );
-    }
-
-
+    
 
 }
 
