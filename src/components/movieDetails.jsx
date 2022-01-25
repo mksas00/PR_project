@@ -37,9 +37,9 @@ const MovieDetails = () =>{
                 <img className='filmImage' src={movie.image} style={{height:400,width:300}}></img>
                 <div className="filmDetailsDiv" style={{display: 'flex', justifyContent: 'flex-start', alignItems:'flex-start', flexDirection:'column', paddingLeft:40}}> 
                     <h5 style={{color:'white'}}>Title: {movie.title}</h5>
-                    <h5 style={{color:'white'}}>Year of production: -</h5>
+                    {/* <h5 style={{color:'white'}}>Year of production: -</h5>
                     <h5 style={{color:'white'}}>Director: -</h5>
-                    <h5 style={{color:'white'}}>Genre: -</h5>
+                    <h5 style={{color:'white'}}>Genre: -</h5> */}
                     <h5 style={{color:'white'}}>Storyline: </h5>
                     <spam style={{color:'white'}}>{movie.content}
                     </spam>

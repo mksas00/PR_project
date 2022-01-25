@@ -15,17 +15,6 @@ const SignUpForm = () =>{
     const [errors, setErrors] = useState({})
     let navigate = useNavigate();
 
-    // state = {
-    //     account: {
-    //         login: "",
-    //         username: "",
-    //         email: "",
-    //         password: ""
-    //     },
-    //     errors: {}
-    // };
-
-
 
     const validate = () => {
         const errors = {};
@@ -35,10 +24,13 @@ const SignUpForm = () =>{
             errors.username = 'Username is required!';
         }
         if (email.trim() === '') {
-            errors.password = 'Email is required!';
+            errors.email = 'Email is required!';
         }
         if (password.trim() === '') {
             errors.password = 'Password is required!';
+        }
+        if (login.trim() === ''){
+            errors.login = 'Login is required'
         }
 
         return Object.keys(errors).length === 0 ? null : errors;
@@ -62,8 +54,10 @@ const SignUpForm = () =>{
         }).then((response) => {
             navigate('/login')
         }).catch((error) => {
+            console.log(error)
             const errors = {};
-            errors.password = 'Given username does\'t exists or password is wrong!';
+            errors.login = 'Given username or email is already taken!';
+            errors.password = 'Given username or email is already taken!';
             setErrors( errors || {});
             console.log(error);
         });

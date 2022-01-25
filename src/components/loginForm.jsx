@@ -10,15 +10,6 @@ const LoginForm = () =>{
     const [errors, setErrors] = useState({})
     let navigate = useNavigate();
 
-//   const state = {
-//         account: {
-//             username: "",
-//             password: ""
-//         },
-//         errors: {}
-//     };
-
-
     const validate = () => {
         const errors = {};
 
